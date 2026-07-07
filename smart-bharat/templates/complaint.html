@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Complaint Assistant - Smart Bharat{% endblock %}
+
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <div class="text-center mb-10 fade-in-up">
+    <div class="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 rounded-full px-4 py-1.5 text-xs font-semibold mb-3">
+      <i data-lucide="file-edit" class="w-3.5 h-3.5"></i> AI-Drafted Complaints
+    </div>
+    <h1 class="font-display font-bold text-2xl sm:text-3xl">Complaint Assistant</h1>
+    <p class="text-slate-500 dark:text-slate-400 mt-2 max-w-xl mx-auto">Describe your civic issue and let AI draft a professional complaint letter, ready to submit.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+    <!-- Form -->
+    <div class="glass-card rounded-2xl p-6 sm:p-8 fade-in-up">
+      <form id="complaint-form" class="space-y-5">
+        <div>
+          <label class="text-sm font-medium block mb-1.5">Complaint Type</label>
+          <select id="complaint-type" required class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="" disabled selected>Select complaint type</option>
+            {% for ctype in complaint_types %}
+            <option value="{{ ctype }}">{{ ctype }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium block mb-1.5">Location</label>
+          <input id="complaint-location" type="text" required placeholder="e.g. Sector 21, Sonipat, Haryana"
+            class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div>
+          <label class="text-sm font-medium block mb-1.5">Description</label>
+          <textarea id="complaint-description" rows="5" required placeholder="Describe the issue in your own words..."
+            class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <i data-lucide="languages" class="w-4 h-4 text-slate-400"></i>
+          <select id="lang-select" class="text-sm bg-transparent border border-slate-300 dark:border-slate-600 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+          </select>
+        </div>
+
+        <button id="generate-btn" type="submit" class="w-full btn-shine inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-full shadow-md transition">
+          <i data-lucide="sparkles" class="w-5 h-5"></i> Generate Complaint
+        </button>
+      </form>
+    </div>
+
+    <!-- Output -->
+    <div class="fade-in-up">
+      <div id="loading-section" class="hidden glass-card rounded-2xl p-8 text-center h-full flex flex-col items-center justify-center">
+        <svg class="animate-spin h-8 w-8 text-blue-600 mb-3" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+        </svg>
+        <p class="text-sm text-slate-500 dark:text-slate-400">Drafting your professional complaint...</p>
+      </div>
+
+      <div id="empty-state" class="glass-card rounded-2xl p-8 text-center h-full flex flex-col items-center justify-center text-slate-400">
+        <i data-lucide="file-text" class="w-10 h-10 mb-3"></i>
+        <p>Your AI-generated complaint will appear here.</p>
+      </div>
+
+      <div id="result-section" class="hidden glass-card rounded-2xl p-6 sm:p-8">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm">
+            <i data-lucide="file-check" class="w-4 h-4"></i> Generated Complaint
+          </div>
+          <button data-copy-target="complaint-content" class="flex items-center gap-1 text-xs text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+          </button>
+        </div>
+        <div id="complaint-content" class="text-sm leading-relaxed whitespace-pre-wrap bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 border border-slate-200/60 dark:border-slate-700/60"></div>
+
+        <div class="mt-5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/50 rounded-xl p-4 flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <p class="text-xs text-green-700 dark:text-green-400 font-medium">Your Tracking ID</p>
+            <p id="tracking-id" class="font-mono font-bold text-lg text-green-800 dark:text-green-300"></p>
+          </div>
+          <a id="track-link" href="#" class="inline-flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition">
+            <i data-lucide="map-pin-check" class="w-4 h-4"></i> Track Status
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("complaint-form");
+  const loadingSection = document.getElementById("loading-section");
+  const emptyState = document.getElementById("empty-state");
+  const resultSection = document.getElementById("result-section");
+  const generateBtn = document.getElementById("generate-btn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    emptyState.classList.add("hidden");
+    resultSection.classList.add("hidden");
+    loadingSection.classList.remove("hidden");
+    generateBtn.disabled = true;
+
+    try {
+      const res = await fetch("/api/complaint/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          complaint_type: document.getElementById("complaint-type").value,
+          location: document.getElementById("complaint-location").value,
+          description: document.getElementById("complaint-description").value,
+          language: document.getElementById("lang-select").value,
+        }),
+      });
+      const data = await res.json();
+      loadingSection.classList.add("hidden");
+
+      if (data.success) {
+        document.getElementById("complaint-content").textContent = data.draft;
+        document.getElementById("tracking-id").textContent = data.tracking_id;
+        document.getElementById("track-link").href = "/tracker?id=" + encodeURIComponent(data.tracking_id);
+        resultSection.classList.remove("hidden");
+      } else {
+        emptyState.classList.remove("hidden");
+        alert(data.error || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      loadingSection.classList.add("hidden");
+      emptyState.classList.remove("hidden");
+      alert("Network error. Please try again.");
+    } finally {
+      generateBtn.disabled = false;
+    }
+  });
+
+  if (window.lucide) window.lucide.createIcons();
+});
+</script>
+{% endblock %}

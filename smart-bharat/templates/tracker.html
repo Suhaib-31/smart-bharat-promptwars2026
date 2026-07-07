@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Complaint Tracker - Smart Bharat{% endblock %}
+
+{% block content %}
+<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <div class="text-center mb-10 fade-in-up">
+    <div class="inline-flex items-center gap-2 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-full px-4 py-1.5 text-xs font-semibold mb-3">
+      <i data-lucide="map-pin-check" class="w-3.5 h-3.5"></i> Live Status Tracking
+    </div>
+    <h1 class="font-display font-bold text-2xl sm:text-3xl">Complaint Tracker</h1>
+    <p class="text-slate-500 dark:text-slate-400 mt-2">Enter your tracking ID to check the current status of your complaint.</p>
+  </div>
+
+  <form method="GET" action="{{ url_for('complaint.tracker_page') }}" class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row gap-3 fade-in-up">
+    <input type="text" name="id" value="{{ tracking_id or '' }}" placeholder="e.g. SB-260707-12345" required
+      class="flex-1 bg-slate-100 dark:bg-slate-800 border-none rounded-xl px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button type="submit" class="btn-shine inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition">
+      <i data-lucide="search" class="w-4 h-4"></i> Track
+    </button>
+  </form>
+
+  {% if error %}
+  <div class="mt-6 glass-card rounded-2xl p-6 text-center text-red-500 fade-in-up">
+    <i data-lucide="search-x" class="w-8 h-8 mx-auto mb-2"></i>
+    {{ error }}
+  </div>
+  {% endif %}
+
+  {% if complaint %}
+  <div class="mt-8 glass-card rounded-2xl p-6 sm:p-8 fade-in-up">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+      <div>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Tracking ID</p>
+        <p class="font-mono font-bold text-lg">{{ complaint.tracking_id }}</p>
+      </div>
+      <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold
+        {% if complaint.status == 'Resolved' %} bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300
+        {% elif complaint.status == 'Assigned' %} bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300
+        {% elif complaint.status == 'In Progress' %} bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300
+        {% else %} bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 {% endif %}">
+        <i data-lucide="{{ 'check-circle-2' if complaint.status == 'Resolved' else 'clock' }}" class="w-3.5 h-3.5"></i>
+        {{ complaint.status }}
+      </span>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-track h-2.5 w-full mb-2">
+      <div class="progress-fill" style="width: {{ progress }}%;"></div>
+    </div>
+    <div class="flex justify-between text-xs text-slate-400 mb-8">
+      <span>Received</span><span>In Progress</span><span>Assigned</span><span>Resolved</span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+      <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4">
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Complaint Type</p>
+        <p class="font-medium">{{ complaint.complaint_type }}</p>
+      </div>
+      <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4">
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Location</p>
+        <p class="font-medium">{{ complaint.location }}</p>
+      </div>
+      <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 sm:col-span-2">
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Description</p>
+        <p class="font-medium">{{ complaint.description }}</p>
+      </div>
+      <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 sm:col-span-2">
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Filed On</p>
+        <p class="font-medium">{{ complaint.created_at }}</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if not complaint and not error %}
+  <div class="mt-8 text-center text-slate-400 reveal">
+    <i data-lucide="file-search" class="w-10 h-10 mx-auto mb-3"></i>
+    <p>No complaint loaded. Enter a tracking ID above, or <a href="{{ url_for('complaint.complaint_page') }}" class="text-blue-600 dark:text-blue-400 font-medium hover:underline">file a new complaint</a>.</p>
+  </div>
+  {% endif %}
+
+</section>
+{% endblock %}

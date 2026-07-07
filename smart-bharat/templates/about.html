@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}About - Smart Bharat{% endblock %}
+
+{% block content %}
+
+<section class="relative overflow-hidden gradient-bg text-white py-20">
+  <div class="hero-orb bg-orange-400 w-64 h-64 top-0 left-10"></div>
+  <div class="hero-orb bg-green-400 w-72 h-72 bottom-0 right-10" style="animation-delay:2s;"></div>
+  <div class="relative max-w-4xl mx-auto px-4 text-center fade-in-up">
+    <h1 class="font-display font-extrabold text-3xl sm:text-4xl">About <span class="gradient-text">Smart Bharat</span></h1>
+    <p class="mt-4 text-blue-50/90 max-w-2xl mx-auto">Making government services simple, accessible, and understandable for every Indian citizen — powered by Generative AI.</p>
+  </div>
+</section>
+
+<section class="py-16 bg-slate-50 dark:bg-slate-950">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mb-16 reveal">
+      <div>
+        <span class="text-blue-600 dark:text-blue-400 font-semibold text-sm uppercase tracking-wide">Our Mission</span>
+        <h2 class="font-display font-bold text-2xl sm:text-3xl mt-2">Bridging Citizens & Government, One Conversation at a Time</h2>
+        <p class="text-slate-500 dark:text-slate-400 mt-4 leading-relaxed">
+          Millions of Indians struggle to navigate complex government processes — confusing forms, scattered information,
+          and long queues. Smart Bharat was built to change that. Using Google's Gemini AI, we translate bureaucratic
+          complexity into plain, actionable guidance — in both English and Hindi — so that every citizen, regardless
+          of literacy or technical skill, can access the services they deserve.
+        </p>
+      </div>
+      <div class="glass-card rounded-2xl p-8 grid grid-cols-2 gap-6 text-center">
+        <div>
+          <i data-lucide="users" class="w-8 h-8 mx-auto text-blue-600 dark:text-blue-400 mb-2"></i>
+          <p class="font-display font-bold text-xl">1.4B+</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Citizens to serve</p>
+        </div>
+        <div>
+          <i data-lucide="landmark" class="w-8 h-8 mx-auto text-green-600 dark:text-green-400 mb-2"></i>
+          <p class="font-display font-bold text-xl">100+</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Govt schemes covered</p>
+        </div>
+        <div>
+          <i data-lucide="languages" class="w-8 h-8 mx-auto text-orange-600 dark:text-orange-400 mb-2"></i>
+          <p class="font-display font-bold text-xl">2</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Languages supported</p>
+        </div>
+        <div>
+          <i data-lucide="clock" class="w-8 h-8 mx-auto text-purple-600 dark:text-purple-400 mb-2"></i>
+          <p class="font-display font-bold text-xl">24/7</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">AI availability</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mb-10 reveal">
+      <span class="text-blue-600 dark:text-blue-400 font-semibold text-sm uppercase tracking-wide">Our Values</span>
+      <h2 class="font-display font-bold text-2xl sm:text-3xl mt-2">What Drives Us</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
+      <div class="reveal glass-card rounded-2xl p-6 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-4">
+          <i data-lucide="shield-check" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+        </div>
+        <h3 class="font-semibold">Accessibility</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Simple language, mobile-friendly design, and multilingual support for every citizen.</p>
+      </div>
+      <div class="reveal glass-card rounded-2xl p-6 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-green-100 dark:bg-green-900/40 flex items-center justify-center mb-4">
+          <i data-lucide="lock" class="w-6 h-6 text-green-600 dark:text-green-400"></i>
+        </div>
+        <h3 class="font-semibold">Privacy First</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">We never expose sensitive credentials and handle user data responsibly.</p>
+      </div>
+      <div class="reveal glass-card rounded-2xl p-6 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center mb-4">
+          <i data-lucide="sparkles" class="w-6 h-6 text-orange-600 dark:text-orange-400"></i>
+        </div>
+        <h3 class="font-semibold">AI-Powered Clarity</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Complex government processes explained simply, using state-of-the-art Generative AI.</p>
+      </div>
+    </div>
+
+    <div class="glass-card rounded-2xl p-8 sm:p-10 text-center reveal">
+      <i data-lucide="trophy" class="w-10 h-10 mx-auto text-amber-500 mb-3"></i>
+      <h3 class="font-display font-bold text-xl">Built for PromptWars 2026</h3>
+      <p class="text-slate-500 dark:text-slate-400 mt-2 max-w-xl mx-auto">Smart Bharat was crafted as an entry for the PromptWars 2026 hackathon challenge — demonstrating how GenAI can transform civic tech in India.</p>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

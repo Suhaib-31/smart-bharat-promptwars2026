@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Server Error - Smart Bharat{% endblock %}
+{% block content %}
+<section class="max-w-2xl mx-auto px-4 py-24 text-center">
+  <div class="glass-card rounded-3xl p-10 fade-in-up">
+    <i data-lucide="server-crash" class="w-16 h-16 mx-auto text-red-500 mb-4"></i>
+    <h1 class="font-display font-bold text-3xl mb-2">500 - Something Went Wrong</h1>
+    <p class="text-slate-500 dark:text-slate-400 mb-6">Our servers hit a snag. Please try again in a moment.</p>
+    <a href="{{ url_for('main.index') }}" class="btn-shine inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-full shadow-md transition">
+      <i data-lucide="home" class="w-4 h-4"></i> Back to Home
+    </a>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Smart Bharat - AI-Powered Civic Companion{% endblock %}
+
+{% block content %}
+
+<!-- ============== HERO ============== -->
+<section class="relative overflow-hidden gradient-bg text-white">
+  <div class="hero-orb bg-orange-400 w-72 h-72 top-10 -left-10"></div>
+  <div class="hero-orb bg-green-400 w-80 h-80 bottom-0 right-0" style="animation-delay:2s;"></div>
+  <div class="hero-orb bg-blue-300 w-64 h-64 top-1/3 right-1/4" style="animation-delay:4s;"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-28 text-center">
+    <div class="fade-in-up inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs font-medium mb-6">
+      <span class="w-2 h-2 rounded-full bg-green-400 pulse-dot"></span>
+      Powered by Google Gemini AI &middot; Built for PromptWars 2026
+    </div>
+    <h1 class="fade-in-up stagger-1 font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-4xl mx-auto">
+      Your AI Companion for <span class="gradient-text">Every Government Service</span>
+    </h1>
+    <p class="fade-in-up stagger-2 mt-6 text-lg text-blue-50/90 max-w-2xl mx-auto">
+      Smart Bharat simplifies government schemes, answers your civic questions instantly, drafts your complaints, and tracks them — all in English &amp; Hindi.
+    </p>
+
+    <div class="fade-in-up stagger-3 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="{{ url_for('chat.chat_page') }}" class="btn-shine w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-blue-700 font-semibold px-7 py-3.5 rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition">
+        <i data-lucide="message-circle" class="w-5 h-5"></i> Start Chat
+      </a>
+      <a href="{{ url_for('services.services_page') }}" class="btn-shine w-full sm:w-auto inline-flex items-center justify-center gap-2 glass text-white font-semibold px-7 py-3.5 rounded-full hover:bg-white/20 transition">
+        <i data-lucide="building-2" class="w-5 h-5"></i> Government Services
+      </a>
+      <a href="{{ url_for('complaint.complaint_page') }}" class="btn-shine w-full sm:w-auto inline-flex items-center justify-center gap-2 glass text-white font-semibold px-7 py-3.5 rounded-full hover:bg-white/20 transition">
+        <i data-lucide="file-warning" class="w-5 h-5"></i> Complaint Assistant
+      </a>
+    </div>
+
+    <div class="fade-in-up stagger-4 mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
+      <div class="glass rounded-2xl px-4 py-5 text-center">
+        <p class="text-2xl font-display font-bold">24/7</p>
+        <p class="text-xs text-blue-50/80 mt-1">AI Availability</p>
+      </div>
+      <div class="glass rounded-2xl px-4 py-5 text-center">
+        <p class="text-2xl font-display font-bold">2</p>
+        <p class="text-xs text-blue-50/80 mt-1">Languages</p>
+      </div>
+      <div class="glass rounded-2xl px-4 py-5 text-center">
+        <p class="text-2xl font-display font-bold">8+</p>
+        <p class="text-xs text-blue-50/80 mt-1">Service Categories</p>
+      </div>
+      <div class="glass rounded-2xl px-4 py-5 text-center">
+        <p class="text-2xl font-display font-bold">100%</p>
+        <p class="text-xs text-blue-50/80 mt-1">Free to Use</p>
+      </div>
+    </div>
+  </div>
+
+  <svg class="absolute bottom-0 left-0 w-full text-slate-50 dark:text-slate-950" viewBox="0 0 1440 100" fill="currentColor" preserveAspectRatio="none" style="height:60px;">
+    <path d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,74.7C1120,75,1280,53,1360,42.7L1440,32L1440,100L1360,100C1280,100,1120,100,960,100C800,100,640,100,480,100C320,100,160,100,80,100L0,100Z"></path>
+  </svg>
+</section>
+
+<!-- ============== FEATURES ============== -->
+<section class="py-20 bg-slate-50 dark:bg-slate-950">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto reveal">
+      <span class="text-blue-600 dark:text-blue-400 font-semibold text-sm uppercase tracking-wide">What we offer</span>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl mt-2">Everything a Citizen Needs, in One Place</h2>
+      <p class="text-slate-500 dark:text-slate-400 mt-4">From understanding schemes to filing complaints, Smart Bharat's AI does the heavy lifting for you.</p>
+    </div>
+
+    <div class="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <a href="{{ url_for('chat.chat_page') }}" class="reveal glass-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+          <i data-lucide="bot" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+        </div>
+        <h3 class="font-display font-semibold text-lg">AI Civic Assistant</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Ask anything — schemes, taxes, Aadhaar, PAN, passports, rights, health, education & more. Instant, simple answers.</p>
+      </a>
+
+      <a href="{{ url_for('services.services_page') }}" class="reveal glass-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/40 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+          <i data-lucide="search-check" class="w-6 h-6 text-green-600 dark:text-green-400"></i>
+        </div>
+        <h3 class="font-display font-semibold text-lg">Service Finder</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Pick a category and get AI-matched services with eligibility, documents, process & timelines.</p>
+      </a>
+
+      <a href="{{ url_for('services.documents_page') }}" class="reveal glass-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+          <i data-lucide="folder-check" class="w-6 h-6 text-orange-600 dark:text-orange-400"></i>
+        </div>
+        <h3 class="font-display font-semibold text-lg">Document Guide</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Step-by-step guides for Passport, DL, Birth Certificate, Pension, Scholarship & more.</p>
+      </a>
+
+      <a href="{{ url_for('complaint.complaint_page') }}" class="reveal glass-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/40 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+          <i data-lucide="file-edit" class="w-6 h-6 text-red-600 dark:text-red-400"></i>
+        </div>
+        <h3 class="font-display font-semibold text-lg">Complaint Assistant</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Describe your issue in plain words — AI drafts a professional, formal complaint for you instantly.</p>
+      </a>
+
+      <a href="{{ url_for('complaint.tracker_page') }}" class="reveal glass-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+          <i data-lucide="map-pin-check" class="w-6 h-6 text-purple-600 dark:text-purple-400"></i>
+        </div>
+        <h3 class="font-display font-semibold text-lg">Complaint Tracker</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Track your complaint status in real time — Received, In Progress, Assigned, Resolved.</p>
+      </a>
+
+      <div class="reveal glass-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+          <i data-lucide="languages" class="w-6 h-6 text-teal-600 dark:text-teal-400"></i>
+        </div>
+        <h3 class="font-display font-semibold text-lg">Multilingual Support</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Switch seamlessly between English and Hindi across chat and service recommendations.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section class="py-20 bg-white dark:bg-slate-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto reveal">
+      <span class="text-blue-600 dark:text-blue-400 font-semibold text-sm uppercase tracking-wide">Simple process</span>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl mt-2">How Smart Bharat Works</h2>
+    </div>
+    <div class="mt-14 grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+      <div class="hidden md:block absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-300 via-blue-300 to-green-300"></div>
+      {% set steps = [
+        ("message-square-text", "Ask or Choose", "Chat with the AI or pick a service category / document type."),
+        ("brain-circuit", "AI Understands", "Gemini AI analyzes your query and matches relevant civic information."),
+        ("list-checks", "Get Clear Answers", "Receive simplified, structured guidance — documents, steps & timelines."),
+        ("badge-check", "Track & Resolve", "File complaints and track their status until resolution.")
+      ] %}
+      {% for icon, title, desc in steps %}
+      <div class="reveal relative text-center">
+        <div class="w-16 h-16 mx-auto rounded-full bg-white dark:bg-slate-800 border-4 border-blue-100 dark:border-slate-700 shadow-lg flex items-center justify-center relative z-10">
+          <i data-lucide="{{ icon }}" class="w-7 h-7 text-blue-600 dark:text-blue-400"></i>
+        </div>
+        <h4 class="font-semibold mt-4">{{ title }}</h4>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1.5">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA ============== -->
+<section class="py-20 gradient-bg text-white relative overflow-hidden">
+  <div class="hero-orb bg-white w-96 h-96 -top-20 left-1/3"></div>
+  <div class="relative max-w-4xl mx-auto px-4 text-center reveal">
+    <h2 class="font-display font-bold text-3xl sm:text-4xl">Ready to simplify your civic life?</h2>
+    <p class="mt-4 text-blue-50/90">Join thousands of citizens using Smart Bharat to navigate government services with ease.</p>
+    <a href="{{ url_for('chat.chat_page') }}" class="btn-shine mt-8 inline-flex items-center gap-2 bg-white text-blue-700 font-semibold px-8 py-4 rounded-full shadow-xl hover:-translate-y-0.5 transition">
+      <i data-lucide="rocket" class="w-5 h-5"></i> Get Started Now
+    </a>
+  </div>
+</section>
+
+{% endblock %}

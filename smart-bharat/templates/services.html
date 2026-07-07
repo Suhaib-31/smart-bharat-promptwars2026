@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Government Service Finder - Smart Bharat{% endblock %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+  <div class="text-center mb-10 fade-in-up">
+    <div class="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded-full px-4 py-1.5 text-xs font-semibold mb-3">
+      <i data-lucide="search-check" class="w-3.5 h-3.5"></i> AI-Matched Recommendations
+    </div>
+    <h1 class="font-display font-bold text-2xl sm:text-3xl">Government Service Finder</h1>
+    <p class="text-slate-500 dark:text-slate-400 mt-2 max-w-xl mx-auto">Select a category below and let AI recommend the right service, eligibility, documents & process.</p>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+    {% for cat in categories %}
+    <button data-category-card data-category-id="{{ cat.id }}" data-category-name="{{ cat.name }}"
+      class="category-card reveal glass-card rounded-2xl p-5 text-center transition group">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-3 group-hover:scale-110 transition">
+        <i data-lucide="{{ cat.icon }}" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+      </div>
+      <h3 class="font-semibold text-sm">{{ cat.name }}</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ cat.desc }}</p>
+    </button>
+    {% endfor %}
+  </div>
+
+  <div id="query-section" class="glass-card rounded-2xl p-6 max-w-2xl mx-auto hidden">
+    <label class="text-sm font-medium block mb-2">Selected category: <span id="selected-category-label" class="text-blue-600 dark:text-blue-400 font-semibold"></span></label>
+    <textarea id="extra-query" rows="3" placeholder="Add any specific detail (optional) — e.g. 'I am a farmer with 2 acres land'..."
+      class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+
+    <div class="flex items-center justify-between mt-4">
+      <div class="flex items-center gap-2">
+        <i data-lucide="languages" class="w-4 h-4 text-slate-400"></i>
+        <select id="lang-select" class="text-sm bg-transparent border border-slate-300 dark:border-slate-600 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+        </select>
+      </div>
+      <button id="get-recommendation-btn" class="btn-shine inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-full shadow-md transition">
+        <i data-lucide="sparkles" class="w-4 h-4"></i> Get AI Recommendation
+      </button>
+    </div>
+  </div>
+
+  <div id="result-section" class="mt-8 max-w-2xl mx-auto hidden">
+    <div class="glass-card rounded-2xl p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold">
+          <i data-lucide="sparkles" class="w-5 h-5"></i> AI Recommendation
+        </div>
+        <button data-copy-target="result-content" class="flex items-center gap-1 text-xs text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i><span>Copy</span>
+        </button>
+      </div>
+      <div id="result-content" class="markdown-content text-sm leading-relaxed"></div>
+    </div>
+  </div>
+
+  <div id="loading-section" class="mt-8 max-w-2xl mx-auto hidden text-center py-10">
+    <div class="inline-flex items-center gap-3 text-slate-500 dark:text-slate-400">
+      <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span class="text-sm">Finding the best service for you...</span>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll("[data-category-card]");
+  const querySection = document.getElementById("query-section");
+  const resultSection = document.getElementById("result-section");
+  const loadingSection = document.getElementById("loading-section");
+  const selectedLabel = document.getElementById("selected-category-label");
+  const getBtn = document.getElementById("get-recommendation-btn");
+  let selectedCategoryId = null;
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      cards.forEach((c) => c.classList.remove("ring-2", "ring-blue-500"));
+      card.classList.add("ring-2", "ring-blue-500");
+      selectedCategoryId = card.getAttribute("data-category-id");
+      selectedLabel.textContent = card.getAttribute("data-category-name");
+      querySection.classList.remove("hidden");
+      resultSection.classList.add("hidden");
+      querySection.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  });
+
+  getBtn.addEventListener("click", async () => {
+    if (!selectedCategoryId) return;
+    resultSection.classList.add("hidden");
+    loadingSection.classList.remove("hidden");
+    getBtn.disabled = true;
+
+    try {
+      const res = await fetch("/api/services/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: selectedCategoryId,
+          query: document.getElementById("extra-query").value,
+          language: document.getElementById("lang-select").value,
+        }),
+      });
+      const data = await res.json();
+      loadingSection.classList.add("hidden");
+
+      if (data.success) {
+        document.getElementById("result-content").innerHTML = window.marked ? window.marked.parse(data.result) : data.result;
+        resultSection.classList.remove("hidden");
+        resultSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        alert(data.error || "Something went wrong. Please try again.");
+      }
+    } catch (e) {
+      loadingSection.classList.add("hidden");
+      alert("Network error. Please try again.");
+    } finally {
+      getBtn.disabled = false;
+    }
+  });
+
+  if (window.lucide) window.lucide.createIcons();
+});
+</script>
+{% endblock %}
